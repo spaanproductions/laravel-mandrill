@@ -1,0 +1,41 @@
+{
+    "name": "spaanproductions/laravel-mandrill",
+    "description": "Mandrill Mailer for Laravel 9+",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Spaan Productions",
+            "email": "info@spaanproductions.nl",
+            "homepage": "https://spaanproductions.nl"
+        }
+    ],
+    "homepage": "https://github.com/spaanproductions/laravel-mandrill",
+    "keywords": ["Laravel", "Mandrill"],
+    "require": {
+        "php": "^8.0",
+        "illuminate/support": "^9.0",
+        "mailchimp/transactional": "^1.0",
+        "symfony/mailer": "^6.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~9.0",
+        "orchestra/testbench": "~7"
+    },
+    "autoload": {
+        "psr-4": {
+            "SpaanProductions\\LaravelMandrill\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SpaanProductions\\LaravelMandrill\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "SpaanProductions\\LaravelMandrill\\LaravelMandrillServiceProvider"
+            ]
+        }
+    }
+}

@@ -25,6 +25,7 @@ Add the Mandrill mailer to your `config\mail.php`:
         // 'X-MC-ReturnPathDomain' => 'your.returndomain.com',
         // 'X-MC-PreserveRecipients' => true, // https://mailchimp.com/developer/transactional/docs/smtp-integration/#x-mc-preserverecipients
     ],
+    // 'logger' => 'daily',
 ],
 ```
 
