@@ -44,7 +44,7 @@ class MandrillTransport extends AbstractTransport
         }
 
         $messageId = data_get($response, '0._id');
-        $message->getOriginalMessage()->getHeaders()->addHeader('X-Message-ID', $messageId);
+        $message->getOriginalMessage()->getHeaders()->addHeader('X-Message-ID', ($messageId ?? ''));
 
         $this->getLogger()->debug('Response: ' . json_encode($response));
         $this->getLogger()->debug(sprintf('Email transport "%s" finished', __CLASS__));
