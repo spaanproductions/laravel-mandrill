@@ -5,6 +5,10 @@
 
 This is where your description should go. Take a look at [contributing.md](contributing.md) to see a todo list.
 
+## Note
+
+Please note that BCC is not supported with this driver.
+
 ## Installation
 
 Via Composer
