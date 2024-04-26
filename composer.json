@@ -13,13 +13,13 @@
     "keywords": ["Laravel", "Mandrill"],
     "require": {
         "php": "^8.0|^8.1",
-        "illuminate/support": "^9.0|^10.0",
+        "illuminate/support": "^9.0|^10.0|^11.0",
         "mailchimp/transactional": "^1.0",
         "symfony/mailer": "^6.0"
     },
     "require-dev": {
         "phpunit/phpunit": "~9.0",
-        "orchestra/testbench": "~7|~8"
+        "orchestra/testbench": "~7|~8|~9"
     },
     "autoload": {
         "psr-4": {
