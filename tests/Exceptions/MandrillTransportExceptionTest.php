@@ -18,4 +18,12 @@ class MandrillTransportExceptionTest extends TestCase
 		$this->assertSame($previous->getCode(), $exception->getCode());
 		$this->assertSame($previous, $exception->getPrevious());
 	}
+
+	public function test_exception_falls_back_to_zero_code_if_non_integer()
+	{
+		$request = new Request('POST', '/');
+		$previous = new RequestException('Test error', $request, null, null, ['code' => 'not-an-int']);
+		$exception = new MandrillTransportException($previous);
+		$this->assertSame(0, $exception->getCode());
+	}
 }
