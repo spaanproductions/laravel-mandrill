@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Log;
 use MailchimpTransactional\ApiClient;
 use Symfony\Component\Mailer\SentMessage;
 use GuzzleHttp\Exception\RequestException;
+use Symfony\Component\Mime\Header\Headers;
 use Symfony\Component\Mailer\Transport\AbstractTransport;
 use SpaanProductions\LaravelMandrill\Exceptions\MandrillTransportException;
 
@@ -34,10 +35,16 @@ class MandrillTransport extends AbstractTransport
 
         $message = $this->setHeaders($message);
 
-        $response = $this->mailchimp->messages->sendRaw([
-            'raw_message' => $message->toString(),
-            'async' => true,
-        ]);
+	    $request = [
+		    'raw_message' => $message->toString(),
+		    'async' => true,
+	    ];
+
+	    if ($returnPath = $this->getHeader($message, 'X-MC-ReturnPathDomain')) {
+		    $request['return_path_domain'] = $returnPath;
+	    }
+
+	    $response = $this->mailchimp->messages->sendRaw($request);
 
         if ($response instanceof RequestException) {
             throw new MandrillTransportException($response);
@@ -49,6 +56,14 @@ class MandrillTransport extends AbstractTransport
         $this->getLogger()->debug('Response: ' . json_encode($response));
         $this->getLogger()->debug(sprintf('Email transport "%s" finished', __CLASS__));
     }
+
+	protected function getHeader(SentMessage $message, string $header): ?string
+	{
+		/** @var Headers $headers */
+		$headers = $message->getOriginalMessage()->getHeaders();
+
+		return $headers->get($header)?->getBodyAsString();
+	}
 
     /**
      * Set headers of email.
