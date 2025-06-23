@@ -2,48 +2,46 @@
 
 namespace SpaanProductions\LaravelMandrill\Tests;
 
-use Illuminate\Support\Facades\Log;
+use Symfony\Component\Mime\Email;
 use MailchimpTransactional\ApiClient;
-use PHPUnit\Framework\MockObject\MockObject;
+use Symfony\Component\Mailer\Envelope;
+use Symfony\Component\Mailer\SentMessage;
+use GuzzleHttp\Exception\RequestException;
 use SpaanProductions\LaravelMandrill\MandrillTransport;
 use SpaanProductions\LaravelMandrill\Exceptions\MandrillTransportException;
-use Symfony\Component\Mailer\SentMessage;
-use Symfony\Component\Mime\Email;
-use Symfony\Component\Mailer\Envelope;
-use GuzzleHttp\Exception\RequestException;
 
 class MandrillTransportTest extends TestCase
 {
-	public function testToStringReturnsMandrill()
+	public function test_to_string_returns_mandrill()
 	{
 		$transport = new MandrillTransport($this->createMock(ApiClient::class), []);
 		$this->assertSame('mandrill', (string)$transport);
 	}
 
-	public function testSetHeadersAddsConfiguredHeaders()
+	public function test_set_headers_adds_configured_headers()
 	{
 		$apiClient = $this->createMock(ApiClient::class);
 		$config = ['headers' => ['X-Test-Header' => 'Value']];
 		$transport = new MandrillTransport($apiClient, $config);
-		$email = (new Email())->from('sender@example.com')->to('test@example.com')->subject('Test')->text('Body');
+		$email = (new Email)->from('sender@example.com')->to('test@example.com')->subject('Test')->text('Body');
 		$envelope = new Envelope($email->getFrom()[0], $email->getTo());
 		$sentMessage = new SentMessage($email, $envelope);
 		$result = $this->invokeMethod($transport, 'setHeaders', [$sentMessage]);
 		$this->assertSame('Value', $result->getOriginalMessage()->getHeaders()->get('X-Test-Header')->getBodyAsString());
 	}
 
-	public function testGetHeaderReturnsNullIfHeaderNotSet()
+	public function test_get_header_returns_null_if_header_not_set()
 	{
 		$apiClient = $this->createMock(ApiClient::class);
 		$transport = new MandrillTransport($apiClient, []);
-		$email = (new Email())->from('sender@example.com')->to('test@example.com')->subject('Test')->text('Body');
+		$email = (new Email)->from('sender@example.com')->to('test@example.com')->subject('Test')->text('Body');
 		$envelope = new Envelope($email->getFrom()[0], $email->getTo());
 		$sentMessage = new SentMessage($email, $envelope);
 		$result = $this->invokeMethod($transport, 'getHeader', [$sentMessage, 'X-Not-Set']);
 		$this->assertNull($result);
 	}
 
-	public function testDoSendThrowsExceptionOnRequestException()
+	public function test_do_send_throws_exception_on_request_exception()
 	{
 		$this->expectException(MandrillTransportException::class);
 		$apiClient = $this->createMock(ApiClient::class);
@@ -55,7 +53,7 @@ class MandrillTransportTest extends TestCase
 		};
 		$apiClient->messages = $messagesStub;
 		$transport = new MandrillTransport($apiClient, []);
-		$email = (new Email())->from('sender@example.com')->to('test@example.com')->subject('Test')->text('Body');
+		$email = (new Email)->from('sender@example.com')->to('test@example.com')->subject('Test')->text('Body');
 		$envelope = new Envelope($email->getFrom()[0], $email->getTo());
 		$sentMessage = new SentMessage($email, $envelope);
 		$this->invokeProtectedMethod($transport, 'doSend', [$sentMessage]);
@@ -74,4 +72,4 @@ class MandrillTransportTest extends TestCase
 	{
 		return $this->invokeMethod($object, $method, $args);
 	}
-} 
+}
