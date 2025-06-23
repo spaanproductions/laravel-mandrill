@@ -26,5 +26,9 @@ If you want to contribute but do not know where to start, this list provides som
 
 - **Send coherent history** - Make sure each individual commit in your pull request is meaningful. If you had to make multiple intermediate commits while developing, please [squash them](http://www.git-scm.com/book/en/v2/Git-Tools-Rewriting-History#Changing-Multiple-Commit-Messages) before submitting.
 
+## Testing
+
+- Please add or update PHPUnit test cases for any new features or bug fixes.
+- Ensure all tests pass by running `./vendor/bin/phpunit` before submitting a pull request.
 
 **Happy coding**!
