@@ -43,6 +43,19 @@ Please see the [changelog](changelog.md) for more information on what has change
 $ composer test
 ```
 
+## Running Tests
+
+This package uses [PHPUnit](https://phpunit.de/) and [Orchestra Testbench](https://github.com/orchestral/testbench) for testing.
+
+To run the tests, execute:
+
+```bash
+composer install
+./vendor/bin/phpunit
+```
+
+This will run all test cases in the `tests/` directory.
+
 ## Contributing
 
 Please see [contributing.md](contributing.md) for details and a todolist.

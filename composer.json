@@ -28,7 +28,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "SpaanProductions\\LaravelMandrill\\Tests\\": "tests"
+            "SpaanProductions\\LaravelMandrill\\Tests\\": "tests/"
         }
     },
     "extra": {
